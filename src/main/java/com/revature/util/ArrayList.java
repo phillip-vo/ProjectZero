@@ -16,22 +16,23 @@ public class ArrayList<T> {
      */
     public void add(T t)
     {
+        this.t = t;
 
         // Checks to see if current amount is not greater, if so create new array and resize the capacity by 50%
-        if (this.count + 1 > objArray.length) {
+        if (this.count + 1 > this.objArray.length) {
             Object[] newObjArray = new Object[this.count * 2];
 
             // Copy elements of current array to new array
             for (int i = 0; i < this.count; i++) {
-                objArray[i] = newObjArray[i];
+                this.objArray[i] = newObjArray[i];
             }
 
             // Current array points to new array reference
-            objArray = newObjArray;
+            this.objArray = newObjArray;
         }
 
         // Add new object to array
-        objArray[this.count] = t;
+        this.objArray[this.count] = this.t;
 
         // Increment count to reflect the amount of objects in object array
         this.count++;
@@ -43,9 +44,9 @@ public class ArrayList<T> {
      */
     public Object get(int index)
     {
-        if(objArray[index] != null)
+        if(this.objArray[index] != null)
         {
-            return objArray[index];
+            return this.objArray[index];
         } else {
             throw new ArrayIndexOutOfBoundsException("Element does not exist at index:" + index);
         }
@@ -58,7 +59,7 @@ public class ArrayList<T> {
     public void set(int index, T t) {
 
         if (index < this.size()) {
-            objArray[index] = t;
+            this.objArray[index] = t;
         } else {
             throw new IndexOutOfBoundsException("Cannot set element at index: " + index);
         }
@@ -72,7 +73,7 @@ public class ArrayList<T> {
      */
     public int indexOf(T t) {
         for (int i = 0; i < this.count; i++) {
-            if (objArray[i] == t) {
+            if (this.objArray[i] == t) {
                 return i;
             }
         }
@@ -95,12 +96,47 @@ public class ArrayList<T> {
      */
     public boolean contains(T t) {
         for(int i = 0; i < this.count; i++) {
-            if (t.equals(objArray[i])) {
+            if (t.equals(this.objArray[i])) {
                 return true;
             }
         }
         return false;
     }
+
+
+    public boolean compare(ArrayList objArrayTwo) {
+        if (objArrayTwo.size() == this.count) {
+
+            for (int i = 0; i < this.count; i++) {
+
+                if (!objArrayTwo.get(i).equals(this.objArray[i])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /*
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || !(o instanceof GenericArrayList)) {
+            return false;
+        }
+
+        // How to typecast o to class so that we can compare data member???
+
+    }
+    */
+
 
     /*
     toString Method:
@@ -112,7 +148,7 @@ public class ArrayList<T> {
         String string = "";
 
         for (int i = 0; i < this.count; i++) {
-            string += objArray[i] + ", ";
+            string += this.objArray[i] + ", ";
         }
 
         if (string != "") {
