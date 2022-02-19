@@ -20,38 +20,7 @@ public interface DAO<T> {
 
     int update(T t) throws SQLException;
 
-    int delete(T t);
+    int delete(T t) throws SQLException;
 
+    int count() throws SQLException;
 }
-
-
-/*
-    private Connection conn;
-
-    public ArrayList<Runner> getAllRunners() throws SQLException {
-
-        ArrayList<Runner> allRunners = new ArrayList<Runner>();
-
-        String query = "SELECT * FROM runners";
-
-        try(Statement statement = conn.createStatement()) {
-
-            ResultSet rs =  statement.executeQuery(query);
-            while(rs.next()) {
-                Runner nextRunner = new Runner(rs.getInt("runner_id"), rs.getString("last_name"), rs.getString("first_name"), rs.getString("gender"), rs.getInt("age"));
-                allRunners.add(nextRunner);
-            }
-            rs.close();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-
-        conn.close();
-
-        return allRunners;
-    }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
-     */

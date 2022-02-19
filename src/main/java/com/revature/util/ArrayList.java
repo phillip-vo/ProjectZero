@@ -5,9 +5,9 @@ public class ArrayList<T> {
     private Object objArray[];
     private T t;
 
-    public ArrayList()
+    public ArrayList(int size)
     {
-        objArray = new Object[8];
+        objArray = new Object[size];
     }
 
     /*

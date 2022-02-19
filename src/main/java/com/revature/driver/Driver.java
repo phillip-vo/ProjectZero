@@ -2,6 +2,7 @@ package com.revature.driver;
 
 import com.revature.dao.RaceDAO;
 import com.revature.dao.RunnerDAO;
+import com.revature.dao.RunnerDAOImpl;
 import com.revature.model.Race;
 import com.revature.model.Runner;
 import com.revature.util.ArrayList;
@@ -15,8 +16,14 @@ public class Driver {
 
     public static void main(String[] args) throws SQLException {
 
-        Connection conn = Database.getConnection();
-        conn.close();
+        RunnerDAO runnerDAO = new RunnerDAOImpl();
+
+        ArrayList<Runner> allRunner = runnerDAO.getAll();
+        for(int i = 0; i < allRunner.size(); i++) {
+            System.out.println(allRunner.get(i));
+        }
+
+
         /*
         ConnectionUtil conn = new ConnectionUtil();
 

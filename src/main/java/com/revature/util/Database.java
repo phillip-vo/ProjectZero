@@ -30,12 +30,11 @@ public class Database {
             String username = (String) props.get("username");
             String password = (String) props.get("password");
 
+            if (conn == null) {
 
-            conn = DriverManager.getConnection(url, username, password);
-
-            if (conn != null) {
-                System.out.println("Database connection successful");
+                conn = DriverManager.getConnection(url, username, password);
             }
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

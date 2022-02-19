@@ -1,7 +1,7 @@
 package com.revature.model;
 
 public class Runner {
-    private int runner_id;
+    private int runnerId;
     private String lastName;
     private String firstName;
     private String gender;
@@ -11,22 +11,27 @@ public class Runner {
     private String state;
     private String postalCode;
 
-    public Runner(int runner_id, String lastName, String firstName, String gender, int age) {
-
-        this.runner_id = runner_id;
+    public Runner(int runnerId, String lastName, String firstName, String gender, int age) {
+        this.runnerId = runnerId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.gender = gender;
         this.age = age;
-
     }
 
-    public int getRunner_id() {
-        return runner_id;
+    public Runner(String lastName, String firstName, String gender, int age) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.age = age;
     }
 
-    public void setRunner_id(int runner_id) {
-        this.runner_id = runner_id;
+    public int getRunnerId() {
+        return runnerId;
+    }
+
+    public void setRunnerId(int runnerId) {
+        this.runnerId = runnerId;
     }
 
     public String getLastName() {
@@ -95,7 +100,7 @@ public class Runner {
 
     @Override
     public String toString() {
-        return "Runner{" + "runner_id=" + runner_id +
+        return "Runner{" + "runner_id='" + runnerId + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", gender='" + gender + '\'' +

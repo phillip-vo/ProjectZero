@@ -13,7 +13,7 @@ public class RaceDAO {
     private Connection conn;
 
     public ArrayList<Race> getAllRaces() throws SQLException {
-        ArrayList<Race> allRaces = new ArrayList<Race>();
+        ArrayList<Race> allRaces = new ArrayList<Race>(8);
 
         String query = "SELECT * FROM races";
 
