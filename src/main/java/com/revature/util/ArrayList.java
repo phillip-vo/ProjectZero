@@ -7,7 +7,7 @@ public class ArrayList<T> {
 
     public ArrayList()
     {
-        objArray = new Object[5];
+        objArray = new Object[8];
     }
 
     /*

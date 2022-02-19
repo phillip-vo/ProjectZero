@@ -8,41 +8,42 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnectionUtil {
-    private static Connection conn;
+public class Database {
 
-    public static Connection getConnection()  {
+    private Database() {
+
+    }
+
+    public static Connection getConnection() throws SQLException {
+        Connection conn = null;
 
         try {
-
+            // Create FileInputStream object and pass in sql.properties file
             FileInputStream propertiesInput = new FileInputStream("C:\\Users\\Sequoia\\Desktop\\RevatureProjects\\sql.properties");
 
+            // Create Properties object and load data from propertiesInput
             Properties props = new Properties();
             props.load(propertiesInput);
 
+            // Set variables used for connection
             String url = (String) props.get("url");
             String username = (String) props.get("username");
             String password = (String) props.get("password");
 
-            if (conn == null) {
-                try {
-                    conn = DriverManager.getConnection(url, username, password);
-                    System.out.println("Database connection successful");
-                } catch(SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    conn.close();
-                }
+
+            conn = DriverManager.getConnection(url, username, password);
+
+            if (conn != null) {
+                System.out.println("Database connection successful");
             }
 
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch(IOException e) {
-            e.printStackTrace();
-        } catch(SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return conn;
     }
+
 }
