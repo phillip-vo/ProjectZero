@@ -22,5 +22,4 @@ public interface DAO<T> {
 
     int delete(T t) throws SQLException;
 
-    int count() throws SQLException;
 }

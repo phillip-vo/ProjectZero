@@ -130,7 +130,6 @@ public class RunnerDAOImpl implements RunnerDAO {
         return result;
     }
 
-    @Override
     public int count() throws SQLException {
 
         Connection conn = Database.getConnection();
@@ -145,8 +144,8 @@ public class RunnerDAOImpl implements RunnerDAO {
 
         int count = rs.getInt(1);
 
-        rs.close();
         ps.close();
+        rs.close();
         conn.close();
 
         return count;
