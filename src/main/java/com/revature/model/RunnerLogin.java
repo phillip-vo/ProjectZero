@@ -1,12 +1,12 @@
 package com.revature.model;
 
 public class RunnerLogin {
-    private int id;
+    private int loginId;
     private String username;
     private String password;
 
-    public RunnerLogin(int id, String username, String password) {
-        this.id = id;
+    public RunnerLogin(int loginId, String username, String password) {
+        this.loginId = loginId;
         this.username = username;
         this.password = password;
     }
@@ -16,12 +16,12 @@ public class RunnerLogin {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public int getLoginId() {
+        return loginId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLoginId(int loginId) {
+        this.loginId = loginId;
     }
 
     public String getUsername() {
@@ -42,7 +42,7 @@ public class RunnerLogin {
 
     @Override
     public String toString() {
-        return "Runner_Login{" + "id='" + id + '\'' +
+        return "Runner_Login{" + "loginId='" + loginId + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' + "}";
     }

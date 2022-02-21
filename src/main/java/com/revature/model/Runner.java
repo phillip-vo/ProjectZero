@@ -10,6 +10,7 @@ public class Runner {
     private String city;
     private String state;
     private String postalCode;
+    private int loginId;
 
     public Runner(int runnerId, String lastName, String firstName, String gender, int age) {
         this.runnerId = runnerId;
@@ -18,6 +19,15 @@ public class Runner {
         this.gender = gender;
         this.age = age;
     }
+
+    public Runner(String lastName, String firstName, String gender, int age, int loginId) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.age = age;
+        this.loginId = loginId;
+    }
+
 
     public Runner(String lastName, String firstName, String gender, int age) {
         this.lastName = lastName;
@@ -96,6 +106,14 @@ public class Runner {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public int getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(int loginId) {
+        this.loginId = loginId;
     }
 
     @Override

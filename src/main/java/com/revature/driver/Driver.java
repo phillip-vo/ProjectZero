@@ -17,8 +17,10 @@ public class Driver {
     public static void main(String[] args) throws SQLException {
 
         RunnerLoginDAO runnerLoginDAO = new RunnerLoginDAOImpl();
+        RunnerDAO runnerDAO = new RunnerDAOImpl();
 
         RunnerLogin runnerLogin;
+        Runner runner;
 
         String userInput = "";
         int userInputInt = 0;
@@ -42,39 +44,44 @@ public class Driver {
 
             System.out.println("Login to existing account:");
 
-            System.out.println("Enter username: ");
+            System.out.println("- Enter username: ");
             username = input.nextLine();
 
-            System.out.println("Enter password: ");
+            System.out.println("- Enter password: ");
             password = input.nextLine();
 
             System.out.println("Processing request...");
 
             ArrayList<RunnerLogin> allRunnerLogins = runnerLoginDAO.getAll();
 
-            boolean result = false;
+            if (allRunnerLogins.size() != 0) {
 
-            for (int i = 0; i < allRunnerLogins.size(); i++) {
-                runnerLogin = (RunnerLogin) allRunnerLogins.get(i);
-                if (username.equals(runnerLogin.getUsername()) && password.equals(runnerLogin.getPassword())) {
-                    result = true;
-                    break;
+                boolean result = false;
+
+                for (int i = 0; i < allRunnerLogins.size(); i++) {
+                    runnerLogin = (RunnerLogin) allRunnerLogins.get(i);
+                    if (username.equals(runnerLogin.getUsername()) && password.equals(runnerLogin.getPassword())) {
+                        result = true;
+                        break;
+                    }
                 }
-            }
 
-            if (result) {
-                System.out.println("Login successful");
+                if (result) {
+                    System.out.println("Login successful");
+                } else {
+                    System.out.println("Incorrect username or password");
+                }
             } else {
-                System.out.println("Incorrect username or password");
+                System.out.println("Table is empty, need to create a new account");
             }
 
         } else if (userInputInt == 2) {
             System.out.println("Create a new account:");
 
-            System.out.println("Enter a new username:");
+            System.out.println("- Enter a new username:");
             username = input.nextLine();
 
-            System.out.println("Enter a new password:");
+            System.out.println("- Enter a new password:");
             password = input.nextLine();
 
             System.out.println("Processing request...");
@@ -85,6 +92,51 @@ public class Driver {
 
             if (result == 1) {
                 System.out.println("Creation successful");
+
+                System.out.println("Next steps");
+                System.out.println("Fill out profile information:");
+
+                System.out.println("- Enter your first name:");
+                String firstName = input.nextLine();
+
+                System.out.println("- Enter your last name:");
+                String lastName = input.nextLine();
+
+                System.out.println("- Enter your gender (m - male, f - female, o - other):");
+                String gender = input.nextLine();
+
+                System.out.println("- Enter your age:");
+                String stringAge = input.nextLine();
+                int age = Integer.parseInt(stringAge);
+
+                int login_id = 0;
+
+                ArrayList<RunnerLogin> allRunnerLogins = runnerLoginDAO.getAll();
+                ArrayList<Runner> allRunners = runnerDAO.getAll();
+
+                // Need to fix: logging_id only insert 0 into db
+                for (int i = 0; i < allRunners.size(); i++) {
+                    runnerLogin = (RunnerLogin) allRunnerLogins.get(i);
+                    if (username.equals(runnerLogin.getUsername()) && password.equals(runnerLogin.getPassword())) {
+                        login_id = runnerLogin.getLoginId();
+                        System.out.println(login_id);
+                    }
+                }
+
+                System.out.println("Saving information...");
+
+                runner = new Runner(firstName, lastName, gender, age, login_id);
+
+                int runnerResult = runnerDAO.insert(runner);
+
+                if (runnerResult == 1) {
+                    System.out.println("Profile complete");
+                } else {
+                    System.out.println("Profile not saved, an error occurred");
+                }
+
+            } else {
+                System.out.println("Cannot create account");
             }
 
         } else if (userInputInt == 3){

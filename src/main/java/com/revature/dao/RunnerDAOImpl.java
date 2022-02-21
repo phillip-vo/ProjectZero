@@ -55,10 +55,7 @@ public class RunnerDAOImpl implements RunnerDAO {
             Runner nextRunner = new Runner(rs.getInt("runner_id"), rs.getString("last_name"), rs.getString("first_name"), rs.getString("gender"), rs.getInt("age"));
             allRunners.add(nextRunner);
         }
-
         rs.close();
-        stmt.close();
-        conn.close();
 
         return allRunners;
     }
@@ -72,7 +69,7 @@ public class RunnerDAOImpl implements RunnerDAO {
     public int insert(Runner runner) throws SQLException {
         Connection conn = Database.getConnection();
 
-        String sql = "INSERT INTO runners (last_name, first_name, gender, age) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO runners (last_name, first_name, gender, age, login_id) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -80,6 +77,7 @@ public class RunnerDAOImpl implements RunnerDAO {
         ps.setString(2, runner. getFirstName());
         ps.setString(3, runner.getGender());
         ps.setInt(4, runner.getAge());
+        ps.setInt(5, runner.getLoginId());
 
 
         int result = ps.executeUpdate();

@@ -8,15 +8,13 @@ import java.sql.*;
 
 public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
-    ArrayList<RunnerLogin> runnerLoginArrayList = new ArrayList<>(0);
-
     @Override
     public RunnerLogin get(int id) throws SQLException {
 
         Connection conn = Database.getConnection();
         RunnerLogin runnerLogin= null;
 
-        String sql = "SELECT id, username, password FROM runner_login WHERE id = ?";
+        String sql = "SELECT id, username, password FROM runner_login WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -25,11 +23,11 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
         ResultSet rs = ps.executeQuery();
 
         if(rs.next()) {
-            int runnerLoginId = rs.getInt("id");
+            int loginId = rs.getInt("login_id");
             String username = rs.getString("username");
             String password = rs.getString("password");
 
-            runnerLogin = new RunnerLogin(runnerLoginId, username, password);
+            runnerLogin = new RunnerLogin(loginId, username, password);
         }
 
         rs.close();
@@ -55,9 +53,11 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
         ResultSet rs = stmt.executeQuery(sql);
 
         while(rs.next()) {
-            RunnerLogin nextRunnerLogin = new RunnerLogin(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+            RunnerLogin nextRunnerLogin = new RunnerLogin(rs.getInt("login_id"), rs.getString("username"), rs.getString("password"));
             allRunnerLogins.add(nextRunnerLogin);
         }
+
+        rs.close();
 
         return allRunnerLogins;
     }
@@ -93,13 +93,13 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         Connection conn = Database.getConnection();
 
-        String sql = "UPDATE runner_login SET username = ?, password = ? WHERE id = ?";
+        String sql = "UPDATE runner_login SET username = ?, password = ? WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, runnerLogin.getUsername());
         ps.setString(2, runnerLogin.getPassword());
-        ps.setInt(3, runnerLogin.getId());
+        ps.setInt(3, runnerLogin.getLoginId());
 
         int result = ps.executeUpdate();
 
@@ -114,11 +114,11 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         Connection conn = Database.getConnection();
 
-        String sql = "DELETE FROM runner_login WHERE id = ?";
+        String sql = "DELETE FROM runner_login WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setInt(1, runnerLogin.getId());
+        ps.setInt(1, runnerLogin.getLoginId());
 
         int result = ps.executeUpdate();
 
