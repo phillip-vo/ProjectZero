@@ -1,26 +1,30 @@
 package com.revature.model;
 
 public class Race {
-    private int race_id;
+    private int raceId;
     private String name;
-    private String distances;
+    private String distance;
     private String location;
     private String city;
     private String state;
     private String postalCode;
 
-    public Race(int race_id, String name, String distances) {
-        this.race_id = race_id;
+    public Race(int raceId, String name, String distance) {
+        this.raceId = raceId;
         this.name = name;
-        this.distances = distances;
+        this.distance = distance;
     }
 
-    public int getRace_id() {
-        return race_id;
+    public Race(String name, String distance) {
+
     }
 
-    public void setRace_id(int race_id) {
-        this.race_id = race_id;
+    public int getRaceId() {
+        return raceId;
+    }
+
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
     }
 
     public String getName() {
@@ -31,12 +35,12 @@ public class Race {
         this.name = name;
     }
 
-    public String getDistances() {
-        return distances;
+    public String getDistance() {
+        return distance;
     }
 
-    public void setDistances(String distance) {
-        this.distances = distances;
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
     public String getLocation() {
@@ -73,6 +77,6 @@ public class Race {
 
     @Override
     public String toString() {
-        return "Race{" + "race_id='" + race_id + '\'' + ", name=" + name + ", distance=" + distances + "}";
+        return "Race{" + "race_id='" + raceId + '\'' + ", name=" + name + ", distance=" + distance + "}";
     }
 }

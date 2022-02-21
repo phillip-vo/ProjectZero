@@ -14,7 +14,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
         Connection conn = Database.getConnection();
         RunnerLogin runnerLogin= null;
 
-        String sql = "SELECT id, username, password FROM runner_login WHERE login_id = ?";
+        String sql = "SELECT id, username, password FROM runner_logins WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -46,7 +46,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         ArrayList<RunnerLogin> allRunnerLogins = new ArrayList<>(count);
 
-        String sql = "SELECT * FROM runner_login";
+        String sql = "SELECT * FROM runner_logins";
 
         Statement stmt = conn.createStatement();
 
@@ -73,7 +73,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         Connection conn = Database.getConnection();
 
-        String sql = "INSERT INTO runner_login (username, password) VALUES (?, ?)";
+        String sql = "INSERT INTO runner_logins (username, password) VALUES (?, ?)";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -93,7 +93,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         Connection conn = Database.getConnection();
 
-        String sql = "UPDATE runner_login SET username = ?, password = ? WHERE login_id = ?";
+        String sql = "UPDATE runner_logins SET username = ?, password = ? WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -114,7 +114,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         Connection conn = Database.getConnection();
 
-        String sql = "DELETE FROM runner_login WHERE login_id = ?";
+        String sql = "DELETE FROM runner_logins WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -132,7 +132,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
 
         Connection conn = Database.getConnection();
 
-        String sql = "SELECT COUNT(*) FROM runner_login";
+        String sql = "SELECT COUNT(*) FROM runner_logins";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
