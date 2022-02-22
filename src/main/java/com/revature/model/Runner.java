@@ -10,28 +10,18 @@ public class Runner {
     private String city;
     private String state;
     private String postalCode;
-    private int loginId;
 
-    public Runner(int runnerId, String lastName, String firstName, String gender, int age) {
+    public Runner(int runnerId, String firstName, String lastName, String gender, int age) {
         this.runnerId = runnerId;
-        this.lastName = lastName;
         this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.age = age;
     }
 
-    public Runner(String lastName, String firstName, String gender, int age, int loginId) {
-        this.lastName = lastName;
+    public Runner(String firstName, String lastName, String gender, int age) {
         this.firstName = firstName;
-        this.gender = gender;
-        this.age = age;
-        this.loginId = loginId;
-    }
-
-
-    public Runner(String lastName, String firstName, String gender, int age) {
         this.lastName = lastName;
-        this.firstName = firstName;
         this.gender = gender;
         this.age = age;
     }
@@ -44,20 +34,20 @@ public class Runner {
         this.runnerId = runnerId;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getGender() {
@@ -108,19 +98,11 @@ public class Runner {
         this.postalCode = postalCode;
     }
 
-    public int getLoginId() {
-        return loginId;
-    }
-
-    public void setLoginId(int loginId) {
-        this.loginId = loginId;
-    }
-
     @Override
     public String toString() {
         return "Runner{" + "runner_id='" + runnerId + '\'' +
+                ", firsName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", age=" + age + "}";
     }

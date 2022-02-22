@@ -14,7 +14,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
         Connection conn = Database.getConnection();
         RunnerLogin runnerLogin= null;
 
-        String sql = "SELECT id, username, password FROM runner_logins WHERE login_id = ?";
+        String sql = "SELECT login_id, username, password FROM runner_logins WHERE login_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -147,5 +147,24 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
         conn.close();
 
         return count;
+    }
+
+    @Override
+    public int updateId(String username, int id) throws SQLException {
+        Connection conn = Database.getConnection();
+
+        String sql = "UPDATE runner_logins SET runner_id = ? WHERE username = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, id);
+        ps.setString(2, username);
+
+        int result = ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+
+        return result;
     }
 }

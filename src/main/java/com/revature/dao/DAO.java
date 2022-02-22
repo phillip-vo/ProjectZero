@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import com.revature.model.Runner;
+import com.revature.model.RunnerLogin;
 import com.revature.util.ArrayList;
 
 import java.sql.Connection;

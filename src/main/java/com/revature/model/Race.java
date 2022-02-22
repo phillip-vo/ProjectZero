@@ -4,19 +4,28 @@ public class Race {
     private int raceId;
     private String name;
     private String distance;
+    private String date;
     private String location;
     private String city;
     private String state;
     private String postalCode;
 
-    public Race(int raceId, String name, String distance) {
+    public Race(int raceId, String name, String distance, String date) {
         this.raceId = raceId;
         this.name = name;
         this.distance = distance;
+        this.date = date;
+    }
+
+    public Race(String name, String distance, String date) {
+        this.name = name;
+        this.distance = distance;
+        this.date = date;
     }
 
     public Race(String name, String distance) {
-
+        this.name = name;
+        this.distance = distance;
     }
 
     public int getRaceId() {
@@ -41,6 +50,14 @@ public class Race {
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getLocation() {
@@ -77,6 +94,9 @@ public class Race {
 
     @Override
     public String toString() {
-        return "Race{" + "race_id='" + raceId + '\'' + ", name=" + name + ", distance=" + distance + "}";
+        return "Race{" + "race_id='" + raceId + '\'' +
+                ", name='" + name + '\'' +
+                ", distance='" + distance + '\'' +
+                ", date='" + date + '\'' + "}";
     }
 }
