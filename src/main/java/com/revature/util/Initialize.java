@@ -111,26 +111,37 @@ public class Initialize {
     }
 
     public void loginOptions() throws SQLException {
-        printLoginMenu(runner.getFirstName());
-        userInput = getUserInput();
 
-        if (userInput == 1) {
-            updateProfile();
-        } else if (userInput == 2) {
-            displayAllRaces();
-            System.out.println("Enter the ID of the race you want enter:");
-            raceId = getUserInput();
-            raceSignUp(raceId);
+        try {
+            printLoginMenu(runner.getFirstName());
+            userInput = getUserInput();
 
-        } else if (userInput == 3) {
-            printIndividualRaces();
-            showIndividualRaces();
-            printRaceTableBot();
-        } else if (userInput == 0) {
-            System.out.print("Exiting system, goodbye");
-        } else {
-            System.out.println("Invalid option, exiting system");
+            while (userInput != 0) {
+                if (userInput == 1) {
+                    updateProfile();
+                } else if (userInput == 2) {
+                    displayAllRaces();
+                    System.out.println("Enter the ID of the race you want enter:");
+                    raceId = getUserInput();
+                    raceSignUp(raceId);
+
+                } else if (userInput == 3) {
+                    printIndividualRaces();
+                    showIndividualRaces();
+                    printRaceTableBot();
+                } else {
+                    System.out.println("Invalid option, exiting system");
+                }
+
+                printLoginMenu(runner.getFirstName());
+                userInput = getUserInput();
+            }
+        } catch(NumberFormatException e) {
+            System.out.print("Invalid input, pick a number option above");
         }
+
+        System.out.println("Back to main menu");
+
     }
 
     public void raceSignUp(int raceId) throws SQLException {

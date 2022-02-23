@@ -13,7 +13,6 @@ public class Driver {
         init.printTitle();
 
         try {
-
             init.printStartMenu();
             int userInput = init.getUserInput();
 
@@ -37,7 +36,7 @@ public class Driver {
             }
 
         } catch(NumberFormatException e) {
-            System.out.println("Invalid option, select a number");
+            System.out.println("Invalid input, select a number option above");
         }
 
         System.out.print("Exiting system, goodbye");
