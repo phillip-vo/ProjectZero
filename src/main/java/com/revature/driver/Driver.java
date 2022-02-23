@@ -4,7 +4,12 @@ import com.revature.util.Initialize;
 
 import java.sql.SQLException;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 public class Driver {
+
+    public static final Logger log = Logger.getLogger(Driver.class);
 
     public static void main(String[] args) throws SQLException {
 

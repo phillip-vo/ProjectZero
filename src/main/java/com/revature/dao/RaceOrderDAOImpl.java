@@ -143,7 +143,7 @@ public class RaceOrderDAOImpl implements RaceOrderDAO {
 
         String sql = "SELECT race_orders.order_id, races.name, races.distance, races.race_date, races.state, races.city " +
                 "FROM race_orders INNER JOIN runners ON race_orders.runner_id = runners.runner_id " +
-                "INNER JOIN races ON race_orders.race_id = races.race_id WHERE runners.runner_id = ?";
+                "INNER JOIN races ON race_orders.race_id = races.race_id WHERE runners.runner_id = ? ORDER BY races.race_date";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 

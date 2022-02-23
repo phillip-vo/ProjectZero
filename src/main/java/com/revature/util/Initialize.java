@@ -1,6 +1,7 @@
 package com.revature.util;
 
 import com.revature.dao.*;
+import com.revature.driver.Driver;
 import com.revature.model.Race;
 import com.revature.model.RaceOrder;
 import com.revature.model.Runner;
@@ -52,9 +53,11 @@ public class Initialize {
     Get input from user
      */
     public int getUserInput() {
+        Driver.log.info("getUserInput Method:");
 
         String userInputString = input.nextLine();
         int userInputInt = Integer.parseInt(userInputString);
+        Driver.log.info("userInputInt: " + userInputInt);
 
         return userInputInt;
     }
@@ -64,14 +67,17 @@ public class Initialize {
     Get username and password
      */
     public void login() throws SQLException {
+        Driver.log.info("login Method:");
 
         System.out.println("Login to existing account:");
 
         System.out.println("- Enter username: ");
         username = input.nextLine();
+        Driver.log.info(" Entering username" + username);
 
         System.out.println("- Enter password: ");
         password = input.nextLine();
+        Driver.log.info("Entering password" + password);
 
         System.out.println("Processing request...");
     }
@@ -81,6 +87,7 @@ public class Initialize {
     Check to see if login credentials are valid
      */
     public void validateLogin() throws SQLException {
+        Driver.log.info("validateLogin Method:");
 
         allRunnerLogins = runnerLoginDAO.getAll();
 
@@ -98,6 +105,8 @@ public class Initialize {
 
             getRunnerInfo();
 
+            Driver.log.info("Login successful:" + result);
+
             if (result) {
                 System.out.println("Login successful");
                 loginOptions();
@@ -111,10 +120,14 @@ public class Initialize {
     }
 
     public void loginOptions() throws SQLException {
+        Driver.log.info("loginOptions Method:");
 
         try {
             printLoginMenu(runner.getFirstName());
+            Driver.log.info("Current runner firstname:" + runner.getFirstName());
+
             userInput = getUserInput();
+            Driver.log.info("Current userInput:" + userInput);
 
             while (userInput != 0) {
                 if (userInput == 1) {
@@ -124,6 +137,7 @@ public class Initialize {
                     System.out.println("Enter the ID of the race you want enter:");
                     raceId = getUserInput();
                     raceSignUp(raceId);
+                    Driver.log.info("Select race with raceId of:" + raceId);
 
                 } else if (userInput == 3) {
                     printIndividualRaces();
@@ -135,6 +149,7 @@ public class Initialize {
 
                 printLoginMenu(runner.getFirstName());
                 userInput = getUserInput();
+                Driver.log.info("Current userInput:" + userInput);
             }
         } catch(NumberFormatException e) {
             System.out.print("Invalid input, pick a number option above");
@@ -145,7 +160,10 @@ public class Initialize {
     }
 
     public void raceSignUp(int raceId) throws SQLException {
+        Driver.log.info("raceSignUp Method:");
+
         raceOrder = new RaceOrder(runnerId, raceId);
+        Driver.log.info("Creating new raceOrder:" + raceOrder);
 
         int result = raceOrderDAO.insert(raceOrder);
 
@@ -158,26 +176,34 @@ public class Initialize {
     }
 
     public void showIndividualRaces() throws SQLException {
+        Driver.log.info("showIndividualRaces Method:");
         raceOrderDAO.getIndividualOrders(runnerId);
     }
 
 
     public void updateProfile() throws SQLException {
+        Driver.log.info("updateProfile Method:");
+
         printUpdateMenu();
         userInput = getUserInput();
+        Driver.log.info("Current userInput:" + userInput);
 
         if (userInput == 1) {
             System.out.println("- Enter first name:");
             firstName = input.nextLine();
+            Driver.log.info("Updating firstname to: " + firstName);
         } else if (userInput == 2) {
             System.out.println("- Enter last name:");
             lastName = input.nextLine();
+            Driver.log.info("Updating lastname to: " + lastName);
         } else if (userInput == 3) {
             System.out.println("- Enter gender:");
             gender = input.nextLine();
+            Driver.log.info("Updating gender to: " + gender);
         } else if (userInput == 4) {
             System.out.println("- Enter age:");
             age = Integer.parseInt(input.nextLine());
+            Driver.log.info("Updating age to: " + age);
         } else if (userInput == 0) {
             System.out.print("Exiting system, goodbye");
         } else {
@@ -186,6 +212,7 @@ public class Initialize {
 
         System.out.println("Updating profile...");
         runner = new Runner(runnerId, firstName, lastName, gender, age);
+        Driver.log.info("Creating new runner object:" + runner);
 
         int result = runnerDAO.update(runner);
 
@@ -198,21 +225,26 @@ public class Initialize {
     }
 
     public void createAccount() throws SQLException {
+        Driver.log.info("createAccount Method:");
 
         try {
             System.out.println("Create a new account:");
 
             System.out.println("- Enter a new username:");
             username = input.nextLine();
+            Driver.log.info("Enter new username: " + username);
 
             System.out.println("- Enter a new password:");
             password = input.nextLine();
+            Driver.log.info("Entering new password: " + password);
 
             System.out.println("Processing request...");
 
             runnerLogin = new RunnerLogin(username, password);
+            Driver.log.info("Creating new runnerLogin object: " + runnerLogin);
 
             int result = runnerLoginDAO.insert(runnerLogin);
+            Driver.log.info("Inserting new runnerLogin into database");
 
             if (result == 1) {
                 System.out.println("Creation successful");
