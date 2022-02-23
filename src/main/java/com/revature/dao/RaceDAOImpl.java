@@ -51,17 +51,12 @@ public class RaceDAOImpl implements RaceDAO {
 
         ResultSet rs = stmt.executeQuery(sql);
         while(rs.next()) {
-            Race nextRace = new Race(rs.getInt("race_id"), rs.getString("name"), rs.getString("distance"), rs.getString("race_date"));
+            Race nextRace = new Race(rs.getInt("race_id"), rs.getString("name"), rs.getString("distance"), rs.getString("race_date"), rs.getString("city"), rs.getString("state"));
             allRaces.add(nextRace);
         }
         rs.close();
 
         return allRaces;
-    }
-
-    @Override
-    public int save(Race race) throws SQLException {
-        return 0;
     }
 
     @Override

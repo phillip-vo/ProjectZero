@@ -2,6 +2,7 @@ package com.revature.util;
 
 import com.revature.dao.*;
 import com.revature.model.Race;
+import com.revature.model.RaceOrder;
 import com.revature.model.Runner;
 import com.revature.model.RunnerLogin;
 
@@ -13,33 +14,38 @@ public class Initialize {
     private String username;
     private String password;
 
+    private String firstName;
+    private String lastName;
+    private String gender;
+    private int age;
+
+    private int userInput;
+
     private Scanner input = new Scanner(System.in);
 
     private RunnerLoginDAO runnerLoginDAO = new RunnerLoginDAOImpl();
     private RunnerDAO runnerDAO = new RunnerDAOImpl();
     private RaceDAO raceDAO = new RaceDAOImpl();
+    private RaceOrderDAO raceOrderDAO = new RaceOrderDAOImpl();
 
     private RunnerLogin runnerLogin;
     private Runner runner;
     private Race race;
+    private RaceOrder raceOrder;
+
+    private int runnerId;
+    private int raceId;
+    private int orderId;
+
+    private ArrayList<RunnerLogin> allRunnerLogins;
+    private ArrayList<Runner> allRunners;
+    private ArrayList<Race> allRaces;
+    private ArrayList<RaceOrder> allRaceOrders;
+
 
     public Initialize() throws SQLException {
     }
 
-
-    /*
-    printMenu Method:
-    Display menu options in console
-     */
-    public void printStartMenu() {
-        System.out.println("|   MENU SELECTION DEMO        |");
-        System.out.println("|   Options:                   |");
-        System.out.println("|   1. Login                   |");
-        System.out.println("|   2. Create New Account      |");
-        System.out.println("|   3. Find a Race             |");
-        System.out.println("|   4. Exit                    |");
-        System.out.println("Select an option:");
-    }
 
     /*
     getUserInput Method:
@@ -76,7 +82,7 @@ public class Initialize {
      */
     public void validateLogin() throws SQLException {
 
-        ArrayList<RunnerLogin> allRunnerLogins = runnerLoginDAO.getAll();
+        allRunnerLogins = runnerLoginDAO.getAll();
 
         if (allRunnerLogins.size() != 0) {
             boolean result = false;
@@ -85,18 +91,99 @@ public class Initialize {
                 runnerLogin = (RunnerLogin) allRunnerLogins.get(i);
                 if (username.equals(runnerLogin.getUsername()) && password.equals(runnerLogin.getPassword())) {
                     result = true;
+                    runnerId = runnerLogin.getLoginId();
                     break;
                 }
             }
 
+            getRunnerInfo();
+
             if (result) {
                 System.out.println("Login successful");
+                loginOptions();
+
             } else {
                 System.out.println("Incorrect username or password");
             }
         } else {
             System.out.println("Table is empty, need to create a new account");
         }
+    }
+
+    public void loginOptions() throws SQLException {
+        printLoginMenu(runner.getFirstName());
+        userInput = getUserInput();
+
+        if (userInput == 1) {
+            updateProfile();
+        } else if (userInput == 2) {
+            displayAllRaces();
+            System.out.println("Enter the ID of the race you want enter:");
+            raceId = getUserInput();
+            raceSignUp(raceId);
+
+        } else if (userInput == 3) {
+            printIndividualRaces();
+            showIndividualRaces();
+            printRaceTableBot();
+        } else if (userInput == 0) {
+            System.out.print("Exiting system, goodbye");
+        } else {
+            System.out.println("Invalid option, exiting system");
+        }
+    }
+
+    public void raceSignUp(int raceId) throws SQLException {
+        raceOrder = new RaceOrder(runnerId, raceId);
+
+        int result = raceOrderDAO.insert(raceOrder);
+
+        if (result == 1) {
+            System.out.println("Signup was successful");
+        } else {
+            System.out.println("Signup unsuccessful");
+        }
+
+    }
+
+    public void showIndividualRaces() throws SQLException {
+        raceOrderDAO.getIndividualOrders(runnerId);
+    }
+
+
+    public void updateProfile() throws SQLException {
+        printUpdateMenu();
+        userInput = getUserInput();
+
+        if (userInput == 1) {
+            System.out.println("- Enter first name:");
+            firstName = input.nextLine();
+        } else if (userInput == 2) {
+            System.out.println("- Enter last name:");
+            lastName = input.nextLine();
+        } else if (userInput == 3) {
+            System.out.println("- Enter gender:");
+            gender = input.nextLine();
+        } else if (userInput == 4) {
+            System.out.println("- Enter age:");
+            age = Integer.parseInt(input.nextLine());
+        } else if (userInput == 0) {
+            System.out.print("Exiting system, goodbye");
+        } else {
+            System.out.println("Invalid option, exiting system");
+        }
+
+        System.out.println("Updating profile...");
+        runner = new Runner(runnerId, firstName, lastName, gender, age);
+
+        int result = runnerDAO.update(runner);
+
+        if (result == 1) {
+            System.out.println("Update successful");
+        } else {
+            System.out.println("Update unsuccessful");
+        }
+
     }
 
     public void createAccount() throws SQLException {
@@ -127,23 +214,27 @@ public class Initialize {
         }
     }
 
+    public void getProfileInput() {
+        System.out.println("- Enter first name:");
+        firstName = input.nextLine();
+
+        System.out.println("- Enter last name:");
+        lastName = input.nextLine();
+
+        System.out.println("- Enter gender (m - male, f - female):");
+        gender = input.nextLine();
+
+        System.out.println("- Enter age:");
+        String stringAge = input.nextLine();
+        age = Integer.parseInt(stringAge);
+    }
+
     public void createProfile() throws SQLException {
 
         System.out.println("Next steps");
         System.out.println("Fill out profile information:");
 
-        System.out.println("- Enter your first name:");
-        String firstName = input.nextLine();
-
-        System.out.println("- Enter your last name:");
-        String lastName = input.nextLine();
-
-        System.out.println("- Enter your gender (m - male, f - female):");
-        String gender = input.nextLine();
-
-        System.out.println("- Enter your age:");
-        String stringAge = input.nextLine();
-        int age = Integer.parseInt(stringAge);
+        getProfileInput();
 
         System.out.println("Saving information...");
 
@@ -151,19 +242,8 @@ public class Initialize {
 
         int result = runnerDAO.insert(runner);
 
+        allRunners = runnerDAO.getAll();
 
-        if (result == 1) {
-            System.out.println("Profile complete");
-        } else {
-            System.out.println("Profile not saved, an error occurred");
-        }
-
-        linkAccount(firstName, lastName);
-    }
-
-    public int linkAccount(String firstName, String lastName) throws SQLException {
-        int runnerId = 0;
-        ArrayList<Runner> allRunners = runnerDAO.getAll();
         for (int i = 0; i < allRunners.size(); i++) {
             runner = (Runner) allRunners.get(i);
             if (firstName.equals(runner.getFirstName()) && lastName.equals(runner.getLastName())) {
@@ -171,19 +251,55 @@ public class Initialize {
             }
         }
 
-        int result = runnerLoginDAO.updateId(username, runnerId);
+        getRunnerInfo();
+
+        linkAccount(firstName, lastName);
+
+        if (result == 1) {
+            System.out.println("Profile complete");
+            loginOptions();
+        } else {
+            System.out.println("Profile not saved, an error occurred");
+        }
+
+    }
+
+    public void getRunnerInfo() throws SQLException {
+        runner = runnerDAO.get(runnerId);
+        runnerId = runner.getRunnerId();
+        firstName = runner.getFirstName();
+        lastName = runner.getLastName();
+        gender = runner.getGender();
+        age = runner.getAge();
+    }
+
+    public int linkAccount(String firstName, String lastName) throws SQLException {
+        int runnerId = 0;
+        allRunners = runnerDAO.getAll();
+        for (int i = 0; i < allRunners.size(); i++) {
+            runner = (Runner) allRunners.get(i);
+            if (firstName.equals(runner.getFirstName()) && lastName.equals(runner.getLastName())) {
+                runnerId = runner.getRunnerId();
+            }
+        }
+
+        int result = runnerLoginDAO.updateRunnerId(username, runnerId);
 
         return result;
     }
 
-    public void displayRaces() throws SQLException {
+    public void displayAllRaces() throws SQLException {
         System.out.println("Processing request...");
 
-        ArrayList<Race> allRaces = raceDAO.getAll();
+        allRaces = raceDAO.getAll();
+
+        printRaceTable();
 
         for (int i = 0; i < allRaces.size(); i++) {
             System.out.println(allRaces.get(i));
         }
+
+        printRaceTableBot();
     }
 
     public String getUsername() {
@@ -201,4 +317,98 @@ public class Initialize {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void printTitle() {
+        System.out.println("******************************************************************************************************************************************************");
+        System.out.println("  =======   ||        ||=====||   ||            ||          ||==========||   ||            ||   ||======||   ||==========||   ==========   ||     ||  ");
+        System.out.println("  ||        ||        ||     ||    ||    ||    ||                 ||          ||    ||    ||        ||             ||         ||      ||   ||     ||  ");
+        System.out.println("  ||=====   ||        ||     ||     ||  ||||  ||                  ||           ||  ||||  ||         ||             ||         ||           ||=====||  ");
+        System.out.println("       ||   ||        ||     ||      ||||  ||||                   ||            ||||  ||||          ||             ||         ||      ||   ||     ||  ");
+        System.out.println("  =====||   ||=====   ||=====||       ||    ||                    ||             ||    ||       ||======||         ||         ==========   ||     ||  ");
+        System.out.println();
+        System.out.println("                                ||     ||==========||   ||     ||   ||        ||=====||   ||==========||   ||=====||                                  ");
+        System.out.println("                               ||||          ||         ||     ||   ||        ||                ||         ||                                         ");
+        System.out.println("                              ||  ||         ||         ||=====||   ||        ||==||            ||         ||==||                                     ");
+        System.out.println("                             ||====||        ||         ||     ||   ||        ||                ||         ||                                         ");
+        System.out.println("                            ||      ||       ||         ||     ||   ||=====   ||=====||         ||         ||=====||                                  ");
+        System.out.println("******************************************************************************************************************************************************");
+    }
+
+    public void printStartMenu() {
+        System.out.println("|==================================|");
+        System.out.println("|   MENU                           |");
+        System.out.println("|----------------------------------|");
+        System.out.println("|   Options:                       |");
+        System.out.println("|   1. Login                       |");
+        System.out.println("|   2. Create New Account          |");
+        System.out.println("|   3. Find A Race                 |");
+        System.out.println("|   0. Exit                        |");
+        System.out.println("|==================================|");
+        System.out.println("Select a number option:");
+    }
+
+    public void printLoginMenu(String firstName) {
+        System.out.println("Welcome, " + firstName);
+        System.out.println("|==================================|");
+        System.out.println("|   MENU SELECTION DEMO            |");
+        System.out.println("|----------------------------------|");
+        System.out.println("|   Options:                       |");
+        System.out.println("|   1. Update Profile Information  |");
+        System.out.println("|   2. Signup For A Race           |");
+        System.out.println("|   3. View Your Current Races     |");
+        System.out.println("|   0. Exit                        |");
+        System.out.println("|==================================|");
+        System.out.println("Select a number option:");
+    }
+
+    public void printUpdateMenu() {
+        System.out.println("|==================================|");
+        System.out.println("|   MENU SELECTION DEMO            |");
+        System.out.println("|----------------------------------|");
+        System.out.println("|   Options:                       |");
+        System.out.println("|   1. Update First Name           |");
+        System.out.println("|   2. Update Last Name            |");
+        System.out.println("|   3. Update Gender               |");
+        System.out.println("|   4. Update Age                  |");
+        System.out.println("|   0. Exit                        |");
+        System.out.println("|==================================|");
+        System.out.println("Select a number option:");
+    }
+
+    public void printRaceTable() {
+        System.out.println("===============================================================================================================");
+        System.out.println("| ALL UPCOMING RACES                                                                                          |");
+        System.out.println("|-------------------------------------------------------------------------------------------------------------|");
+        System.out.println("| RACE ID | NAME                           | DISTANCE         | DATE        | STATE    | CITY                 |");
+        System.out.println("|-------------------------------------------------------------------------------------------------------------|");
+    }
+
+    public void printRaceTableBot() {
+        System.out.println("===============================================================================================================");
+    }
+
+    public void printIndividualRaces() {
+        System.out.println("===============================================================================================================");
+        System.out.println("| YOUR UPCOMING RACES                                                                                         |");
+        System.out.println("|-------------------------------------------------------------------------------------------------------------|");
+        System.out.println("| ORDER ID | NAME                           | DISTANCE         | DATE        | STATE    | CITY                |");
+        System.out.println("|-------------------------------------------------------------------------------------------------------------|");
+    }
+
 }

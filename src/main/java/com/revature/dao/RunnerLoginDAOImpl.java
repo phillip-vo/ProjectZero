@@ -62,11 +62,6 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
         return allRunnerLogins;
     }
 
-    @Override
-    public int save(RunnerLogin runnerLogin) throws SQLException {
-
-        return 0;
-    }
 
     @Override
     public int insert(RunnerLogin runnerLogin) throws SQLException {
@@ -150,7 +145,7 @@ public class RunnerLoginDAOImpl implements RunnerLoginDAO{
     }
 
     @Override
-    public int updateId(String username, int id) throws SQLException {
+    public int updateRunnerId(String username, int id) throws SQLException {
         Connection conn = Database.getConnection();
 
         String sql = "UPDATE runner_logins SET runner_id = ? WHERE username = ?";

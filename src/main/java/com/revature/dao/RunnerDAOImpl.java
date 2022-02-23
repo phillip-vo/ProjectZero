@@ -60,10 +60,6 @@ public class RunnerDAOImpl implements RunnerDAO {
         return allRunners;
     }
 
-    @Override
-    public int save(Runner runner) throws SQLException {
-        return 0;
-    }
 
     @Override
     public int insert(Runner runner) throws SQLException {
@@ -90,7 +86,7 @@ public class RunnerDAOImpl implements RunnerDAO {
     public int update(Runner runner) throws SQLException {
         Connection conn = Database.getConnection();
 
-        String sql = "UPDATE runners SET last_name = ?, first_name = ?, gender = ?, age = ? WHERE runner_id = ?";
+        String sql = "UPDATE runners SET first_name = ?, last_name = ?, gender = ?, age = ? WHERE runner_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -126,7 +122,7 @@ public class RunnerDAOImpl implements RunnerDAO {
         return result;
     }
 
-
+    @Override
     public int count() throws SQLException {
 
         Connection conn = Database.getConnection();

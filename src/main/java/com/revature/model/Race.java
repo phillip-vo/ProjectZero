@@ -10,6 +10,15 @@ public class Race {
     private String state;
     private String postalCode;
 
+    public Race(int raceId, String name, String distance, String date, String city, String state) {
+        this.raceId = raceId;
+        this.name = name;
+        this.distance = distance;
+        this.date = date;
+        this.city = city;
+        this.state = state;
+    }
+
     public Race(int raceId, String name, String distance, String date) {
         this.raceId = raceId;
         this.name = name;
@@ -94,9 +103,6 @@ public class Race {
 
     @Override
     public String toString() {
-        return "Race{" + "race_id='" + raceId + '\'' +
-                ", name='" + name + '\'' +
-                ", distance='" + distance + '\'' +
-                ", date='" + date + '\'' + "}";
+        return String.format("| %-9s %-32s %-18s %-13s %-10s %-20s |", raceId, name, distance, date, state, city);
     }
 }

@@ -6,5 +6,5 @@ import java.sql.SQLException;
 
 public interface RunnerLoginDAO extends DAO<RunnerLogin> {
 
-    int updateId(String username, int id) throws SQLException;
+    int updateRunnerId(String username, int id) throws SQLException;
 }

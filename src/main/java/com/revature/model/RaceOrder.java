@@ -11,6 +11,11 @@ public class RaceOrder {
         this.raceId = raceId;
     }
 
+    public RaceOrder(int runnerId, int raceId) {
+        this.runnerId = runnerId;
+        this.raceId = raceId;
+    }
+
     public int getOrderId() {
         return orderId;
     }
